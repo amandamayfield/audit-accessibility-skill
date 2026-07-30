@@ -46,7 +46,7 @@ The extension does not support result export — the only way to share results i
 
 Two modes: **file mode** (audit full files) and **branch mode** (audit only changed code). If not obvious from context (user said "check my branch" → branch; user gave a file/directory path → file; otherwise ask), see `references/BRANCH-OR-MAIN.md`'s mode-selection flowchart.
 
-- **File mode:** glob for `**/*.tsx`, `**/*.jsx`, `**/*.js` (JSX-containing only — grep for a JSX marker before including a `.js` file), `**/*.css`, `**/*.scss`; read and audit each file in full.
+- **File mode:** glob for `**/*.tsx`, `**/*.jsx`, `**/*.js` (JSX-containing only — grep for a JSX marker before including a `.js` file), `**/*.css`, `**/*.scss`, and `**/*.html`; read and audit each file in full. The `.html` glob matters for the document shell (`public/index.html` in Vite/CRA), which holds `<html lang>` and the page `<title>` — files a JSX-only glob never surfaces.
 - **Branch mode — REQUIRED: read `references/BRANCH-OR-MAIN.md` before starting.** It has non-obvious rules this file doesn't repeat: three-dot diffing against the merge-base, and tagging each finding `Introduced` or `Pre-existing (affects new code)`. Getting this wrong produces a misleading report.
 
 ## What to Check
@@ -125,9 +125,11 @@ End every report with:
 
 2. **Merge readiness:** PASS (0 critical, 0 serious) / FAIL (any critical or serious). If a Level Access screenshot was incorporated, note that its findings are reflected in the verdict; if not, note that Level Access is available as an optional runtime enrichment but wasn't used.
 
+3. **Contrast coverage note (required):** state how much of the color-contrast checking was actually performable statically. If any audited text/UI color came from Tailwind classes, CSS custom properties (`var(--x)`), styled-components/CSS-in-JS theme tokens, or a design-token file, say so explicitly — those ratios were **not computed** and contrast (1.4.3/1.4.6/1.4.11) is only partially verified. A clean report is not a clean-contrast result unless the colors were readable literals. Recommend the Level Access scan or Colour Contrast Analyser for the unresolved cases.
 
 
-3. **The question:**
+
+4. **The question:**
 
 > Would you like me to apply any of these suggested fixes? (all / by severity / specific items / none)
 

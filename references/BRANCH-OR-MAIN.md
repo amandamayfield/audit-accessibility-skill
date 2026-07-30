@@ -58,11 +58,11 @@ Use the result if available; fall back to `main` if the command fails or returns
 
 ```bash
 
-git diff <base-branch>...HEAD --name-only -- '*.tsx' '*.jsx' '*.js' '*.css' '*.scss'
+git diff <base-branch>...HEAD --name-only -- '*.tsx' '*.jsx' '*.js' '*.css' '*.scss' '*.html'
 
 ```
 
-Criteria such as contrast (1.4.3), focus-visible (2.4.7), reduced motion (2.3), target size (2.5.8), and text resize (1.4.4) live mostly in `.css`/`.scss` files — without these globs the audit structurally cannot see the code those criteria govern.
+Criteria such as contrast (1.4.3), focus-visible (2.4.7), reduced motion (2.3), target size (2.5.8), and text resize (1.4.4) live mostly in `.css`/`.scss` files — without these globs the audit structurally cannot see the code those criteria govern. The `.html` glob covers the document shell (`public/index.html`), where `<html lang>` (3.1.1) and the page `<title>` (2.4.2) live in non-Next apps.
 
 For each matched `.js` file, grep it for a JSX marker (e.g. a `return (` followed by `<`, or a capitalized JSX tag) before auditing — plain `.js` config, utility, or server files without JSX produce false-positive findings if audited as components.
 
@@ -88,7 +88,7 @@ git diff <base-branch>...HEAD -- <file>
 
 ## File Mode
 
-1. If given a directory, glob for `**/*.tsx`, `**/*.jsx`, `**/*.js`, `**/*.css`, and `**/*.scss`
+1. If given a directory, glob for `**/*.tsx`, `**/*.jsx`, `**/*.js`, `**/*.css`, `**/*.scss`, and `**/*.html`
 
 2. For each matched `.js` file, grep it for a JSX marker before including it in the audit — plain `.js` config, utility, or server files without JSX produce false-positive findings if audited as components
 

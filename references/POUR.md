@@ -37,22 +37,30 @@ Comprehensive accessibility guidelines based on WCAG 2.2 and Lighthouse accessib
 **Images require alt text:**
 
 ```jsx
-{/* ❌ Missing alt */}
+{
+  /* ❌ Missing alt */
+}
 
-<img src="chart.png" />
+<img src="chart.png" />;
 
-{/* ✅ Descriptive alt */}
+{
+  /* ✅ Descriptive alt */
+}
 
 <img
   src="chart.png"
   alt="Bar chart showing 40% increase in Q3 sales"
-/>
+/>;
 
-{/* ✅ Decorative image (empty alt) */}
+{
+  /* ✅ Decorative image (empty alt) */
+}
 
-<img src="decorative-border.png" alt="" role="presentation" />
+<img src="decorative-border.png" alt="" role="presentation" />;
 
-{/* ✅ Complex image with longer description */}
+{
+  /* ✅ Complex image with longer description */
+}
 
 <figure>
   <img
@@ -64,31 +72,41 @@ Comprehensive accessibility guidelines based on WCAG 2.2 and Lighthouse accessib
   <figcaption id="infographic-desc">
     {/* Detailed description */}
   </figcaption>
-</figure>
+</figure>;
 ```
 
 **Icon buttons need accessible names:**
 
 ```jsx
-{/* ❌ No accessible name */}
+{
+  /* ❌ No accessible name */
+}
 
 <button>
   <svg>{/* menu icon */}</svg>
-</button>
+</button>;
 
-{/* ✅ Using aria-label */}
+{
+  /* ✅ Using aria-label */
+}
 
 <button aria-label="Open menu">
-  <svg aria-hidden="true" focusable="false">{/* menu icon */}</svg>
-</button>
+  <svg aria-hidden="true" focusable="false">
+    {/* menu icon */}
+  </svg>
+</button>;
 
-{/* ✅ Using visually hidden text */}
+{
+  /* ✅ Using visually hidden text */
+}
 
 <button>
-  <svg aria-hidden="true" focusable="false">{/* menu icon */}</svg>
+  <svg aria-hidden="true" focusable="false">
+    {/* menu icon */}
+  </svg>
 
   <span className="visually-hidden">Open menu</span>
-</button>
+</button>;
 ```
 
 **SVG elements:**
@@ -104,17 +122,23 @@ Comprehensive accessibility guidelines based on WCAG 2.2 and Lighthouse accessib
 | Interactive (clickable SVG) | Wrap in `<button>` or `<a>` — don't make the SVG itself interactive |
 
 ```jsx
-{/* ✅ Informative SVG */}
+{
+  /* ✅ Informative SVG */
+}
 
 <svg role="img" aria-labelledby="chart-title">
   <title id="chart-title">Q3 revenue by region</title>
 
   {/* ... */}
-</svg>
+</svg>;
 
-{/* ✅ Decorative SVG */}
+{
+  /* ✅ Decorative SVG */
+}
 
-<svg aria-hidden="true" focusable="false">{/* ... */}</svg>
+<svg aria-hidden="true" focusable="false">
+  {/* ... */}
+</svg>;
 ```
 
 **SVGR imports:** When an `.svg` file is imported as a React component (`import Logo from './logo.svg'`), audit its rendered output for the above attributes — SVGR-generated components often strip accessibility attributes entirely.
@@ -186,21 +210,24 @@ Comprehensive accessibility guidelines based on WCAG 2.2 and Lighthouse accessib
 **Don't rely on color alone:**
 
 ```jsx
-{/* ❌ Only color indicates error (border-color: red in the stylesheet) */}
+{
+  /* ❌ Only color indicates error (border-color: red in the stylesheet) */
+}
 
-<input className="error-border" />
+<input className="error-border" />;
 
-{/* ✅ Color + icon + text */}
+{
+  /* ✅ Color + icon + text */
+}
 
 <div className="field-error">
   <input aria-invalid="true" aria-describedby="email-error" />
 
   <span id="email-error" className="error-message">
     <svg aria-hidden="true">{/* error icon */}</svg>
-
     Please enter a valid email address
   </span>
-</div>
+</div>;
 ```
 
 ### Media alternatives (1.2)
@@ -271,15 +298,21 @@ p {
 **All functionality must be keyboard accessible:**
 
 ```jsx
-{/* ❌ Only handles click */}
+{
+  /* ❌ Only handles click */
+}
 
-<div onClick={handleAction}>Submit</div>
+<div onClick={handleAction}>Submit</div>;
 
-{/* ✅ Use a native, keyboard-accessible element instead of reimplementing key handling */}
+{
+  /* ✅ Use a native, keyboard-accessible element instead of reimplementing key handling */
+}
 
-<button onClick={handleAction}>Submit</button>
+<button onClick={handleAction}>Submit</button>;
 
-{/* ✅ If a non-native element must be interactive, wire up Enter/Space explicitly */}
+{
+  /* ✅ If a non-native element must be interactive, wire up Enter/Space explicitly */
+}
 
 <div
   role="button"
@@ -293,7 +326,7 @@ p {
   }}
 >
   Submit
-</div>
+</div>;
 ```
 
 **No keyboard traps.** Users must be able to Tab into and out of every component. Use the [modal focus trap pattern](A11Y.md#modal-focus-trap) for dialogs — the native `<dialog>` element handles this automatically.
@@ -330,7 +363,7 @@ button:focus-visible {
 
 ### Focus not obscured (2.4.11) — new in 2.2
 
-**What 2.4.11 (Minimum, AA) actually requires:** the focused element is not *entirely* hidden by author-created content (partial obscuring is allowed). At Level AAA (2.4.12), no part of the focused element may be hidden.
+**What 2.4.11 (Minimum, AA) actually requires:** the focused element is not _entirely_ hidden by author-created content (partial obscuring is allowed). At Level AAA (2.4.12), no part of the focused element may be hidden.
 
 ```css
 /* ⚠️ Partial aid only — see caveat below */
@@ -454,22 +487,18 @@ function showSessionWarning() {
 ```html
 <!-- ❌ No language specified -->
 
-<html>
-</html>
+<html></html>
 
 <!-- ✅ Language specified -->
 
-<html lang="en">
-</html>
+<html lang="en"></html>
 
 <!-- ✅ Language changes within page -->
 
-<p>
-  The French word for hello is <span lang="fr">bonjour</span>.
-</p>
+<p>The French word for hello is <span lang="fr">bonjour</span>.</p>
 ```
 
-In a React app, `lang` is usually set once on the root `<html>` element (e.g., in a Next.js root `layout.tsx` or the static `index.html` `<html>` tag) rather than per-component — check that root element, not individual JSX components.
+In a React app, `lang` is usually set once on the root `<html>` element rather than per-component — check that root element, not individual JSX components. **Required for 3.1.1:** locate and read the file that actually renders `<html>` before reporting on page language — Next.js app router `layout.tsx`/`_document.tsx`, or `public/index.html` in Vite/CRA. The `index.html` case only surfaces if the `.html` glob is in scope (it now is). If no such file is in the audited set, say so and mark 3.1.1 unverified rather than passing it silently.
 
 ### Consistent navigation (3.2.3)
 
@@ -492,7 +521,9 @@ Announce errors with `role="alert"` or `aria-live`, set `aria-invalid="true"` on
 Don't force users to re-enter information already provided in the same session. Auto-populate from earlier steps or let users select from previously entered values.
 
 ```jsx
-{/* ✅ Auto-fill shipping address from billing */}
+{
+  /* ✅ Auto-fill shipping address from billing */
+}
 
 <fieldset>
   <legend>Shipping address</legend>
@@ -504,10 +535,9 @@ Don't force users to re-enter information already provided in the same session. 
       checked={sameAsBilling}
       onChange={(e) => setSameAsBilling(e.target.checked)}
     />
-
     Same as billing address
   </label>
-</fieldset>
+</fieldset>;
 ```
 
 ### Accessible authentication (3.3.8) — new in 2.2
@@ -539,21 +569,35 @@ Login flows must not rely solely on cognitive tests (memorizing passwords, solvi
 **Prefer native elements:**
 
 ```jsx
-{/* ❌ ARIA role on div */}
+{
+  /* ❌ ARIA role on div */
+}
 
-<div role="button" tabIndex={0}>Click me</div>
+<div role="button" tabIndex={0}>
+  Click me
+</div>;
 
-{/* ✅ Native button */}
+{
+  /* ✅ Native button */
+}
 
-<button>Click me</button>
+<button>Click me</button>;
 
-{/* ❌ ARIA checkbox */}
+{
+  /* ❌ ARIA checkbox */
+}
 
-<div role="checkbox" aria-checked="false">Option</div>
+<div role="checkbox" aria-checked="false">
+  Option
+</div>;
 
-{/* ✅ Native checkbox */}
+{
+  /* ✅ Native checkbox */
+}
 
-<label><input type="checkbox" /> Option</label>
+<label>
+  <input type="checkbox" /> Option
+</label>;
 ```
 
 When ARIA is needed, use correct roles and states. See [A11Y.md#aria-tabs](A11Y.md#aria-tabs) for a complete tablist example.
@@ -572,7 +616,7 @@ _(Also check `.js` files in pre-TypeScript projects — these commonly contain J
 
 - `createPortal` renders content outside the parent DOM subtree — this is the standard pattern for modals/tooltips and does not itself break ARIA relationships. Verify that `aria-owns`/`aria-controls`/`aria-labelledby` IDs referenced by portaled content still resolve to elements present in the DOM
 
-- React Router `<Link>` missing accessible names
+- Empty links — links (including React Router `<Link>`/`<NavLink>`, which render an `<a>`) with an `href` but no accessible name: icon-only, image-only with `alt=""`, or truly empty. See [A11Y.md#links](A11Y.md#links) for the empty-link patterns and fixes (WCAG 2.4.4 Link Purpose, 4.1.2 Name, Role, Value)
 
 - Fragments (`<></>`) wrapping content that needs a landmark container
 
