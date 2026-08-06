@@ -10,7 +10,7 @@ A [Claude Code skill](https://docs.claude.com/en/docs/claude-code/skills) that p
   - **File mode** — audit whole files or directories you point it at.
   - **Branch mode** — audit only the code changed on your current branch (diffed against the merge base), tagging each finding as `Introduced` or `Pre-existing (affects new code)`.
 - Optionally incorporates a [Level Access](https://www.levelaccess.com/) browser-extension screenshot as enrichment for runtime issues (e.g. color contrast at scale) that static analysis can't catch. This is never required to run an audit.
-- Ends every report with a summary table, a merge-readiness verdict (PASS/FAIL), and a question asking which fixes (if any) to apply.
+- Ends every report with a one-line severity summary, a merge-readiness verdict (PASS/FAIL), and a question asking which fixes (if any) to apply.
 
 ## Installation
 

@@ -75,6 +75,8 @@ Group findings by severity:
 
 ### 3. Moderate (cosmetic, best-practice, or narrow-audience impact)
 
+**Never render findings as a table.** Each finding gets its own full section using the template below — even when there are many findings and a table would be shorter. A table drops the `**Issue:**` explanation and the suggested code fix, which are the entire point of the report. Do not summarize, collapse, or tabulate the findings list to save space; write every finding out in full.
+
 Each finding:
 
 `````
@@ -88,18 +90,13 @@ Each finding:
 
 **Issue:** [What's wrong and why it matters for users]
 
-**Before:**
-
-```jsx
-<div onClick={handleClick}>Submit</div>
-```
-
-**Suggested fix:**
-
-```jsx
-<button onClick={handleClick}>Submit</button>
+```diff
+- <div onClick={handleClick}>Submit</div>
++ <button onClick={handleClick}>Submit</button>
 ```
 `````
+
+**The code block is REQUIRED for every finding and MUST use a `diff` fence.** The violating code goes on `-` lines (rendered red) and the suggested fix goes on `+` lines (rendered green), so the barrier and its fix sit side by side and color-coded. Use `-` lines only when code is being removed, `+` lines only when code is being added (e.g. a missing `lang` attribute), and both when code is being replaced. Never omit the fix, and never fall back to plain ` ```jsx ` before/after blocks — the `diff` fence is what produces the red/green highlighting.
 
 ### Report Footer
 
@@ -107,21 +104,7 @@ End every report with:
 
 
 
-1. **Summary table:**
-
-
-
-| Severity | Count |
-
-|----------|-------|
-
-| Critical | N |
-
-| Serious | N |
-
-| Moderate | N |
-
-
+1. **Summary line (prose, not a table):** a single sentence with the total and the per-severity breakdown, e.g. "28 findings — 10 Critical, 12 Serious, 6 Moderate." Do not use a Markdown table here.
 
 2. **Merge readiness:** PASS (0 critical, 0 serious) / FAIL (any critical or serious). If a Level Access screenshot was incorporated, note that its findings are reflected in the verdict; if not, note that Level Access is available as an optional runtime enrichment but wasn't used.
 
